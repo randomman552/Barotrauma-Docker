@@ -25,7 +25,7 @@ jobs:
       id: meta
       uses: docker/metadata-action@v3
       with:
-        images: ghcr.io/${{ github.actor }}/steamcmd
+        images: ghcr.io/${{ github.actor }}/barotrauma
         flavor: |
           latest=true
         
