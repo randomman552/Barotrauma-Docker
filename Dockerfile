@@ -1,43 +1,19 @@
-FROM debian
-ENV PUID=1000 \
-    PGID=1000 \
-    PATH="/home/steam:${PATH}" \
-    APP_ID= \
-    START_CMD= 
-
-# Copy scripts into container
-ADD scripts /scripts/
-ADD *.sh splash.txt /
-
-# Add user
-RUN useradd -m steam -u ${PUID}
-WORKDIR /home/steam
+FROM ghcr.io/randomman552/steamcmd:latest
+ENV APP_ID=1026340\
+    START_CMD=/server/DedicatedServer.exe
 
 RUN \
-    # Install dependencies
-        dpkg --add-architecture i386 \
-        && apt-get update \
-        && apt upgrade -y \
-        && apt-get install -y --no-install-recommends --no-install-suggests \
-            ca-certificates \
-            lib32tinfo6 \
-            lib32stdc++6 \
-            curl \
-            net-tools \
+    # Install apt dependencies
+        apt update \
+        && apt upgrade \
+        && apt install -y --no-install-suggests --no-install-recommends \
+            wget \
+            libicu67 \
+    # Apt cleanup
         && apt clean \
         && rm -rf /var/lib/apt/lists/* \
-    # Install steamcmd
-        && su -c 'curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar zxvf -' -p steam \
-        && mv steamcmd.sh steamcmd \
-        && su -c "steamcmd +quit" -p steam \
-    # Make /server directory
-        && mkdir /server \
-        && chown steam:steam /server \
-    # Make scripts executable
-        && chmod -R +x /scripts/*.sh /*.sh
-
-VOLUME /server
-WORKDIR /server
-
-HEALTHCHECK CMD [ "/health.sh" ]
-ENTRYPOINT [ "/entry.sh" ]
+    # Install barotrauma dependencies
+        && wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl1.0/libssl1.0.0_1.0.2n-1ubuntu5.10_amd64.deb \
+        && dpkg -i libssl1.0.0_1.0.2n-1ubuntu5.10_amd64.deb \
+    # Cleanup
+        && rm -rf libssl1.0.0_1.0.2n-1ubuntu5.10_amd64.deb
