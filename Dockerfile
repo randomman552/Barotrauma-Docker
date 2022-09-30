@@ -4,6 +4,9 @@ ENV APP_ID=1026340\
 
 EXPOSE 27015/udp 27016/udp
 
+# Custom splash scren
+COPY splash.txt /
+
 RUN \
     # Install apt dependencies
         apt update \
