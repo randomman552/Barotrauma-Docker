@@ -2,6 +2,8 @@ FROM ghcr.io/randomman552/steamcmd:latest
 ENV APP_ID=1026340\
     START_CMD=/server/DedicatedServer.exe
 
+EXPOSE 27015/udp 27016/udp
+
 RUN \
     # Install apt dependencies
         apt update \
