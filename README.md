@@ -12,6 +12,7 @@ The file structure within the container is as follows:
 │  │  ├─📁share
 |  |  |  ├─📁Daedalic Entertainment GmbH
 |  |  |  |  ├─📁Barotrauma
+|  |  |  |  |  ├─ Save files here
 📁server/
 ├─ Server files here
 📁scripts/
