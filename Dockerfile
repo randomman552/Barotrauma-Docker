@@ -1,6 +1,8 @@
 FROM ghcr.io/randomman552/steamcmd:latest
-ENV APP_ID=1026340\
-    START_CMD=/server/DedicatedServer.exe
+ENV APP_ID=1026340 \
+    START_CMD=/server/DedicatedServer.exe \
+# Set VALIDATE to false as it overwrites config files
+    VALIDATE=
 
 EXPOSE 27015/udp 27016/udp
 VOLUME [ "/home/steam/.local/share/Daedalic Entertainment GmbH/Barotrauma" ]
