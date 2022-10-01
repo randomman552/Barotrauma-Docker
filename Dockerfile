@@ -6,11 +6,13 @@ EXPOSE 27015/udp 27016/udp
 VOLUME "/home/steam/.local/share/Daedalic Entertainment GmbH/Barotrauma"
 
 # Custom splash scren
-COPY splash.txt /
+COPY splash.txt perms.sh /
 
 RUN \
+    # +x to all scripts
+        chmod +x /scripts/*sh /*.sh \
     # Install apt dependencies
-        apt update \
+        && apt update \
         && apt upgrade \
         && apt install -y --no-install-suggests --no-install-recommends \
             wget \
