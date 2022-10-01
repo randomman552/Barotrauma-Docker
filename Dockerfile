@@ -3,6 +3,7 @@ ENV APP_ID=1026340\
     START_CMD=/server/DedicatedServer.exe
 
 EXPOSE 27015/udp 27016/udp
+VOLUME "/home/steam/.local/share/Daedalic Entertainment GmbH/Barotrauma"
 
 # Custom splash scren
 COPY splash.txt /
