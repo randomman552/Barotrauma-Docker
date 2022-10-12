@@ -15,7 +15,7 @@ RUN \
         chmod +x /scripts/*sh /*.sh \
     # Install apt dependencies
         && apt update \
-        && apt upgrade \
+        && apt upgrade -y \
         && apt install -y --no-install-suggests --no-install-recommends \
             wget \
             libicu67 \
