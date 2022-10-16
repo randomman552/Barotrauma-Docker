@@ -1,6 +1,7 @@
 FROM ghcr.io/randomman552/steamcmd:latest
 ENV APP_ID=1026340 \
-    START_CMD=/server/DedicatedServer.exe \
+    START_CMD=/server/DedicatedServer \
+    LD_LIBRARY_PATH="/server/linux64" \
 # Set VALIDATE to false as it overwrites config files
     VALIDATE=
 
