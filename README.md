@@ -31,8 +31,6 @@ Provides the following environment variables for configuration:
 | VALIDATE  |               | Whether you want to validate server files on startup (WARNING: Will overwrite your server configuration files) |
 
 ## Running
-As an example, I will be using this container to run an unmodded gmod server.\
-It is possible to set the APP_ID and START_CMD environment variables to use this container directly, but it is recommended to extend this container and add your own custom scripts and environment variables to handle this functionality.
 ### Docker CLI
 ```sh
 docker run \
