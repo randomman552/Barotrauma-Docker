@@ -11,13 +11,19 @@ RUN useradd -m baro
 VOLUME [ "/home/baro/.local/share/Daedalic Entertainment GmbH/Barotrauma" ]
 VOLUME /server/Data
 
-# Install barotrauma
+# Directory setup
 WORKDIR /server
 RUN mkdir -p "/home/baro/.local/share/Daedalic Entertainment GmbH/Barotrauma" && chown -R baro:baro /server /home/baro
+
+# Install
 USER baro
 RUN steamcmd +force_install_dir /server +login anonymous +app_update 1026340 +quit
+
 # Server looks in the wrong location for steam shared libraries, this symbolic link fixes the error
 RUN ln -s ~/.steam/steamcmd/linux64 ~/.steam/sdk64
+# Link to serversettings.xml so it can be in the /server/Data directory with other config files
+RUN ln -s /server/Data/serversettings.xml /server/serversettings.xml
+
 USER root
 
 # Install dependencies
