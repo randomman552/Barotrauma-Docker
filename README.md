@@ -1,13 +1,13 @@
 # Baarotrauma-Docker
-Barotrauma dedicated server in a Debian based Docker container.
-This image is extended from [SteamCMD](https://github.com/randomman552/SteamCMD-Docker)
+Barotrauma dedicated server in a Ubtunu 20 Docker container.
+
+Based on the [steamcmd](https://github.com/steamcmd/docker) Docker image
 
 ## File structure
 The file structure within the container is as follows:
 ```
 📁home/
-├─ 📁steam/
-│  ├─ 📜steamcmd
+├─ 📁baro/
 │  ├─📁.local
 │  │  ├─📁share
 |  |  |  ├─📁Daedalic Entertainment GmbH
@@ -19,7 +19,7 @@ The file structure within the container is as follows:
 ├─ Scripts here
 ```
 
-If you wish to preserve the installed server between runs, you should create a volume or a bind mount for the `/server` directory.
+To customise settings, use a volume bound to `/server/Data`. Default config files will be added if none are provided.\
 To preserve saves, add a volume for `/home/steam/.local/share/Daedalic Entertainment GmbH/Barotrauma`.
 
 ## Environment variables
@@ -28,7 +28,6 @@ Provides the following environment variables for configuration:
 |:---------:|:-------------:|:--------------------------------------------------------------------------------------------------------------:|
 | PUID      | 1000          | ID of user SteamCMD and the server will be run as                                                              |
 | PGID      | 1000          | ID of group SteamCMD and the server will be run as                                                             |
-| VALIDATE  |               | Whether you want to validate server files on startup (WARNING: Will overwrite your server configuration files) |
 
 ## Running
 ### Docker CLI
@@ -36,7 +35,7 @@ Provides the following environment variables for configuration:
 docker run \
     -p 27015:27015/udp \
     -p 27016:27016/udp \
-    -v barotrauma:/server \
+    -v barotrauma-config:/server \
     -v "barotrauma-data:/home/steam/.local/share/Daedalic Entertainment GmbH/Barotrauma" \
     ghcr.io/randomman552/steamcmd
 ```
@@ -50,6 +49,6 @@ services:
             - 27015:27015/udp
             - 27016:27016/udp
         volumes:
-            - ./server:/server
+            - ./config:/server/Data
             - ./data:/home/steam/.local/share/Daedalic Entertainment GmbH/Barotrauma
 ```
