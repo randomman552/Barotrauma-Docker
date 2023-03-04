@@ -1,30 +1,28 @@
-FROM ghcr.io/randomman552/steamcmd:latest
-ENV APP_ID=1026340 \
-    START_CMD=/server/DedicatedServer \
-    LD_LIBRARY_PATH="/server/linux64" \
-# Set VALIDATE to false as it overwrites config files
-    VALIDATE=
+FROM steamcmd/steamcmd:ubuntu-20
+ENV LD_LIBRARY_PATH /server/linux64
+ENV HOME /home/baro
+ENV PUID 1000
+ENV PGID 1000
+
+# Add user to run the servber
+RUN useradd -m baro
+
+# Install barotrauma
+USER baro
+RUN steamcmd +force_install_dir /server/ +login anonymous +app_update 1026340 +quit
+USER root
+
+# Install dependencies
+RUN apt update && \
+    apt install --no-install-recommends --no-install-suggests -y sudo iproute2 && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Add files
+COPY splash.txt entrypoint.sh /
+RUN chmod +x /entrypoint.sh
 
 EXPOSE 27015/udp 27016/udp
-VOLUME [ "/home/steam/.local/share/Daedalic Entertainment GmbH/Barotrauma" ]
-
-# Custom splash scren
-COPY splash.txt perms.sh /
-
-RUN \
-    # +x to all scripts
-        chmod +x /scripts/*sh /*.sh \
-    # Install apt dependencies
-        && apt update \
-        && apt upgrade -y \
-        && apt install -y --no-install-suggests --no-install-recommends \
-            wget \
-            libicu67 \
-    # Apt cleanup
-        && apt clean \
-        && rm -rf /var/lib/apt/lists/* \
-    # Install barotrauma dependencies
-        && wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl1.0/libssl1.0.0_1.0.2n-1ubuntu5.10_amd64.deb \
-        && dpkg -i libssl1.0.0_1.0.2n-1ubuntu5.10_amd64.deb \
-    # Cleanup
-        && rm -rf libssl1.0.0_1.0.2n-1ubuntu5.10_amd64.deb
+VOLUME [ "/home/steam/.local/share/Daedalic Entertainment GmbH/Barotrauma", "/server/Data" ]
+HEALTHCHECK --interval=10s --start-period=10s --retries=3 CMD if [ $(ss -l | grep -c LISTEN.*27015) == "0" ] ; then exit 1; fi
+ENTRYPOINT [ "/entrypoint.sh" ]
