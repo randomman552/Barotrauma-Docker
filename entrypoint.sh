@@ -7,7 +7,7 @@ sudo -u baro steamcmd +force_install_dir /server/ +login anonymous +app_update 1
 # Update permissions
 usermod -u ${PUID} baro
 groupmod -g ${PGID} baro
-chown -R baro:baro /server "/home/steam/.local/share/Daedalic Entertainment GmbH/Barotrauma"
+chown -R baro:baro /server /home/baro
 
 # Run server
 sudo -u baro /server/DedicatedServer
