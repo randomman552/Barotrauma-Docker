@@ -1,4 +1,4 @@
-# Baarotrauma-Docker
+# Barotrauma-Docker
 Barotrauma dedicated server in a Ubtunu 20 Docker container.
 
 Based on the [steamcmd](https://github.com/steamcmd/docker) Docker image
