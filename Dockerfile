@@ -21,8 +21,9 @@ RUN steamcmd +force_install_dir /server +login anonymous +app_update 1026340 +qu
 
 # Server looks in the wrong location for steam shared libraries, this symbolic link fixes the error
 RUN ln -s ~/.steam/steamcmd/linux64 ~/.steam/sdk64
-# Link to serversettings.xml so it can be in the /server/Data directory with other config files
+# Link to other config files so they can be in the /server/Data directory with other config files
 RUN ln -s /server/Data/serversettings.xml /server/serversettings.xml
+RUN ln -s /server/Data/config_player.xml /server/config_player.xml
 
 USER root
 
