@@ -6,8 +6,8 @@ trigger:
     branch:
         - main
     event:
-        - push
-        - cron
+        exclude:
+            - pull_request
 
 steps:
     - name: Build and Push Image
