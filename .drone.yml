@@ -3,8 +3,11 @@ type: docker
 name: Push Image
 
 trigger:
+    branch:
+        - main
     event:
         - push
+        - cron
 
 steps:
     - name: Build and Push Image
