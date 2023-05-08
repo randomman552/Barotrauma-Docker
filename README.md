@@ -1,4 +1,6 @@
 # Barotrauma-Docker
+[![Build Status](https://drone.ggrainger.uk/api/badges/ggrainger/Barotrauma/status.svg)](https://drone.ggrainger.uk/ggrainger/Barotrauma)
+
 Barotrauma dedicated server in a Ubtunu 20 Docker container.
 
 Based on the [steamcmd](https://github.com/steamcmd/docker) Docker image
