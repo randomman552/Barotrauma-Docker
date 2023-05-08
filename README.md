@@ -39,14 +39,14 @@ docker run \
     -p 27016:27016/udp \
     -v barotrauma-config:/server \
     -v "barotrauma-data:/home/steam/.local/share/Daedalic Entertainment GmbH/Barotrauma" \
-    ghcr.io/randomman552/steamcmd
+    randomman552/barotrauma
 ```
 ### Docker Compose
 ```yml
 version: "3.8"
 services:
     steamcmd:
-        image: ghcr.io/randomman552/barotrauma
+        image: randomman552/barotrauma
         ports:
             - 27015:27015/udp
             - 27016:27016/udp
