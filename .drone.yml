@@ -12,6 +12,8 @@ trigger:
 steps:
     - name: Build and Push Image
       image: plugins/docker
+      environment:
+      DOCKER_BUILDKIT: 1
       settings:
           username:
               from_secret: docker-user
