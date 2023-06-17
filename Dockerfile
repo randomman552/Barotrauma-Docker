@@ -15,6 +15,12 @@ VOLUME /server/Data
 WORKDIR /server
 RUN mkdir -p "/home/baro/.local/share/Daedalic Entertainment GmbH/Barotrauma" && chown -R baro:baro /server /home/baro
 
+# Install dependencies
+RUN apt update && \
+    apt install --no-install-recommends --no-install-suggests -y sudo iproute2 && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/*
+
 # Install
 USER baro
 RUN steamcmd +force_install_dir /server +login anonymous +app_update 1026340 validate +quit
@@ -26,12 +32,6 @@ RUN ln -s /server/Data/serversettings.xml /server/serversettings.xml
 RUN ln -s /server/Data/config_player.xml /server/config_player.xml
 
 USER root
-
-# Install dependencies
-RUN apt update && \
-    apt install --no-install-recommends --no-install-suggests -y sudo iproute2 && \
-    apt clean && \
-    rm -rf /var/lib/apt/lists/*
 
 # Add files
 COPY splash.txt entrypoint.sh /
