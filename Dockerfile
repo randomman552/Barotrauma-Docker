@@ -1,15 +1,12 @@
 FROM steamcmd/steamcmd:ubuntu-20
 ENV HOME /home/baro
-ENV PUID 1000
-ENV PGID 1000
-
 EXPOSE 27015/udp 27016/udp
 
 # Add user to run the servber
 RUN useradd -m baro
 
 VOLUME [ "/home/baro/.local/share/Daedalic Entertainment GmbH/Barotrauma" ]
-VOLUME /server/Data
+VOLUME /server
 
 # Directory setup
 WORKDIR /server
@@ -20,22 +17,12 @@ RUN apt update && \
     apt install --no-install-recommends --no-install-suggests -y sudo iproute2 && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
-
-# Install
-USER baro
-RUN steamcmd +force_install_dir /server +login anonymous +app_update 1026340 validate +quit
-
-# Server looks in the wrong location for steam shared libraries, this symbolic link fixes the error
-RUN ln -s ~/.steam/steamcmd/linux64 ~/.steam/sdk64
-# Link to other config files so they can be in the /server/Data directory with other config files
-RUN ln -s /server/Data/serversettings.xml /server/serversettings.xml
-RUN ln -s /server/Data/config_player.xml /server/config_player.xml
-
-USER root
-
+    
 # Add files
-COPY splash.txt entrypoint.sh /
-RUN chmod +x /entrypoint.sh
+COPY --chmod=755 --chown=baro:baro splash.txt entrypoint.sh /
+
+# De-elevate
+USER baro
 
 HEALTHCHECK --interval=10s --start-period=10s --retries=3 CMD if [ $(ss -l | grep -c LISTEN.*27015) == "0" ] ; then exit 1; fi
 ENTRYPOINT [ "/entrypoint.sh" ]
