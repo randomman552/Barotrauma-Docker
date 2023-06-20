@@ -14,7 +14,7 @@ RUN mkdir -p "/home/baro/.local/share/Daedalic Entertainment GmbH/Barotrauma" &&
 
 # Install dependencies
 RUN apt update && \
-    apt install --no-install-recommends --no-install-suggests -y sudo iproute2 && \
+    apt install --no-install-recommends --no-install-suggests -y iproute2 && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
     
