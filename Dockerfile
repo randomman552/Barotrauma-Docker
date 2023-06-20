@@ -17,6 +17,11 @@ RUN apt update && \
     apt install --no-install-recommends --no-install-suggests -y iproute2 && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
+
+# Allow anyone to read/write to /home/baro/.steam so any user can run the server
+RUN mkdir /home/baro/.steam \
+    && chown baro:baro /home/baro/.steam \
+    && chmod 777 /home/baro/.steam
     
 # Add files
 COPY --chmod=755 --chown=baro:baro splash.txt entrypoint.sh /
