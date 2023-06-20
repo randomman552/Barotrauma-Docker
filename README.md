@@ -36,7 +36,7 @@ docker run \
 ```yml
 version: "3.8"
 services:
-    steamcmd:
+    barotrauma:
         image: randomman552/barotrauma
         ports:
             - 27015:27015/udp
