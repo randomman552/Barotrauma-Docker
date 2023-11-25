@@ -25,24 +25,11 @@ steps:
         - latest
 
   # Reporting
-  - name: finished-webhook
-    image: plugins/webhook
-    depends_on:
-      - docker-image
+  - name: build-reporter
+    image: randomman552/drone-build-reporter
+    depends_on: docker-image
     settings:
-      urls:
-        from_secret: notification-webhook
-      template: |
-        {
-          "title": "${DRONE_BUILD_STATUS^} for ${DRONE_REPO}",
-          "message": "Build `${DRONE_BUILD_NUMBER}` triggered by `${DRONE_BUILD_EVENT}` on `${DRONE_BRANCH}` branch\n\n Commit: [`${DRONE_COMMIT_MESSAGE}`](${DRONE_COMMIT_LINK}) by ${DRONE_COMMIT_AUTHOR}\n\n[View build](${DRONE_BUILD_LINK})\n\n[View source](${DRONE_REPO_LINK})",
-          "priority": 5,
-          "extras": {
-            "client::display": {
-              "contentType": "text/markdown"
-            },
-            "client::notification": {
-              "click": { "url": "${DRONE_BUILD_LINK}" }
-            }
-          }
-        }
+      gotify_token:
+        from_secret: gotify-token
+      gotify_url:
+        from_secret: gotify-url
