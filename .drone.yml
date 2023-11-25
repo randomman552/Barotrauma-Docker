@@ -27,7 +27,8 @@ steps:
   # Reporting
   - name: build-reporter
     image: randomman552/drone-build-reporter
-    depends_on: docker-image
+    depends_on:
+      - docker-image
     settings:
       gotify_token:
         from_secret: gotify-token
