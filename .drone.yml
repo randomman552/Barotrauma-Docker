@@ -1,17 +1,39 @@
-kind: template
-load: basic-build.yaml
-data:
-    steps:
-        - kind: step
-          name: docker-image
-          image: plugins/docker
-          environment:
-              DOCKER_BUILDKIT: 1
-          settings:
-              username:
-                  from_secret: docker-user
-              password:
-                  from_secret: docker-key
-              repo: randomman552/barotrauma
-              tags:
-                  - latest
+kind: pipeline
+type: docker
+name: Build
+
+trigger:
+    branch:
+        - main
+    event:
+        exclude:
+            - pull_request
+
+steps:
+    - name: docker-image
+      image: plugins/docker
+      environment:
+          DOCKER_BUILDKIT: 1
+      settings:
+          username:
+              from_secret: docker-user
+          password:
+              from_secret: docker-key
+          repo: randomman552/barotrauma
+          tags:
+              - latest
+
+    # Reporting
+    - name: build-reporter
+      image: randomman552/drone-build-reporter
+      settings:
+          gotify_token:
+              from_secret: gotify-token
+          gotify_url:
+              from_secret: gotify-url
+          discord_webhook:
+              from_secret: discord-webhook
+      when:
+          status:
+              - failure
+              - success
