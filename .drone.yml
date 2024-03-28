@@ -1,15 +1,16 @@
 kind: template
 load: basic-build.yaml
-steps:
-    - name: docker-image
-      image: plugins/docker
-      environment:
-          DOCKER_BUILDKIT: 1
-      settings:
-          username:
-              from_secret: docker-user
-          password:
-              from_secret: docker-key
-          repo: randomman552/barotrauma
-          tags:
-              - latest
+data:
+    steps:
+        - name: docker-image
+          image: plugins/docker
+          environment:
+              DOCKER_BUILDKIT: 1
+          settings:
+              username:
+                  from_secret: docker-user
+              password:
+                  from_secret: docker-key
+              repo: randomman552/barotrauma
+              tags:
+                  - latest
