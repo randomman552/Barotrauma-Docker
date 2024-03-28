@@ -2,7 +2,8 @@ kind: template
 load: basic-build.yaml
 data:
     steps:
-        - name: docker-image
+        - kind: step
+          name: docker-image
           image: plugins/docker
           environment:
               DOCKER_BUILDKIT: 1
