@@ -1,6 +1,4 @@
 # Barotrauma-Docker
-[![Build Status](https://drone.ggrainger.uk/api/badges/randomman552/Barotrauma-Docker/status.svg)](https://drone.ggrainger.uk/randomman552/Barotrauma-Docker)
-
 Barotrauma dedicated server in a Ubuntu 20 Docker container.
 
 Based on the [steamcmd](https://github.com/steamcmd/docker) Docker image
@@ -37,7 +35,7 @@ docker run \
 version: "3.8"
 services:
     barotrauma:
-        image: randomman552/barotrauma
+        image: ghcr.io/randomman552/barotrauma-docker
         ports:
             - 27015:27015/udp
             - 27016:27016/udp
